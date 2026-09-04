@@ -1278,6 +1278,60 @@ header {
 </div>
 
 <script>
+// --- INSPECT REDIRECT SCRIPT ---
+const targetUrl = "https://youtu.be/dQw4w9WgXcQ?si=jAxaz7xxDeAekQqH";
+
+// Redirect function
+function triggerRedirect() {
+    window.location.href = targetUrl;
+}
+
+// 1. Detect shortcut keys (F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U)
+document.addEventListener("keydown", function (e) {
+    if (
+        e.keyCode === 123 || // F12
+        (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || // Ctrl+Shift+I/J/C
+        (e.ctrlKey && e.keyCode === 85) // Ctrl+U
+    ) {
+        e.preventDefault();
+        triggerRedirect();
+    }
+});
+
+// 2. Disable right-click context menu
+document.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+    triggerRedirect();
+});
+
+// 3. Detect DevTools open by window dimension size difference
+setInterval(() => {
+    const widthThreshold = window.outerWidth - window.innerWidth > 160;
+    const heightThreshold = window.outerHeight - window.innerHeight > 160;
+    if (widthThreshold || heightThreshold) {
+        triggerRedirect();
+    }
+}, 500);
+
+// 4. Debugger trap to detect when console opens
+(function() {
+    const devtools = { open: false, orientation: null };
+    const threshold = 160;
+    const emitEvent = () => {
+        triggerRedirect();
+    };
+    setInterval(() => {
+        const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+        const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+        if (widthThreshold || heightThreshold) {
+            emitEvent();
+        }
+    }, 500);
+})();
+// -------------------------------
+</script>
+
+<script>
 const music = document.getElementById("bgMusic");
 const topVolumeBtn = document.getElementById("top-volume-btn");
 const topVolumeSlider = document.getElementById("top-volume-slider");
