@@ -11,13 +11,20 @@
     delete sessionStorage.redirect;
     if (redirect && redirect != location.href) {
       history.replaceState(null, null, redirect);
-    } else {
-      var q = window.location.search;
-      if (q.indexOf('?p=') === 0) {
+} else {
+    var q = window.location.search;
+    if (q.indexOf('?p=') === 0) {
         var path = q.slice(3).split('&')[0].replace(/~and~/g, '&');
         window.history.replaceState(null, null, '/' + path + (window.location.hash || ''));
-      }
+        
+        // --- ADD YOUR LOGIC HERE ---
+        // For example, if path is "uzi", load the uzi profile:
+        if (path === 'uzi' || path === '/uzi') {
+            // Call your function that renders the uzi profile
+            loadUziProfile(); 
+        }
     }
+}
   })();
 </script>
 
@@ -334,39 +341,58 @@ header {
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
 
+/* Animated Mouse Scroll Indicator Styles */
 .scroll-indicator {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 10px;
     margin-top: 20px;
     margin-bottom: 30px;
-    opacity: 0.8;
+    opacity: 0.85;
     animation: pulseScroll 2s ease-in-out infinite;
     flex-shrink: 0;
 }
 
 .scroll-indicator span {
     font-family: 'Share Tech Mono', monospace;
-    font-size: 16px;
-    letter-spacing: 3px;
+    font-size: 14px;
+    letter-spacing: 4px;
     color: rgba(255, 255, 255, 0.9);
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
-.scroll-indicator svg {
-    width: 18px;
-    height: 18px;
-    stroke: #ffffff;
-    stroke-width: 2;
-    fill: none;
-    filter: drop-shadow(0 0 6px #ffffff);
-    animation: bounceArrow 1.5s ease-in-out infinite;
+.mouse-icon {
+    width: 24px;
+    height: 38px;
+    border: 2px solid rgba(255, 255, 255, 0.75);
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
 }
 
-@keyframes bounceArrow {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(6px); }
+.mouse-wheel {
+    width: 4px;
+    height: 8px;
+    background: #ffffff;
+    border-radius: 2px;
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scrollWheel 1.8s cubic-bezier(0.15, 0.41, 0.69, 0.94) infinite;
+    box-shadow: 0 0 6px #ffffff;
+}
+
+@keyframes scrollWheel {
+    0% {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, 14px);
+        opacity: 0;
+    }
 }
 
 @keyframes pulseScroll {
@@ -798,69 +824,102 @@ header {
     background: rgba(0, 0, 0, 0.45);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 14px;
-    padding: 14px 18px;
+    padding: 18px;
     font-family: 'Share Tech Mono', monospace;
-    font-size: 14px;
+    font-size: 15px;
     color: rgba(255, 255, 255, 0.9);
     text-align: center;
-    line-height: 1.5;
+    line-height: 1.6;
     letter-spacing: 1.5px;
     word-break: break-word;
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.3), 0 2px 6px rgba(0, 0, 0, 0.8);
-    margin-bottom: 14px;
 }
 
-/* Live Spotify Widget Box matching your clip */
+/* Live Spotify Widget with Lyrics */
 .spotify-widget {
     position: relative;
     z-index: 2;
     width: 100%;
-    background: rgba(10, 10, 13, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    margin-top: 16px;
+    background: rgba(10, 10, 13, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 14px;
-    padding: 12px 16px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.spotify-main-row {
     display: flex;
     align-items: center;
-    gap: 14px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    gap: 12px;
 }
 
 .spotify-album-cover {
-    width: 42px;
-    height: 42px;
+    width: 50px;
+    height: 50px;
     border-radius: 8px;
     object-fit: cover;
     background: #1e1e24;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     flex-shrink: 0;
 }
 
 .spotify-track-info {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 4px;
     overflow: hidden;
     flex-grow: 1;
     text-align: left;
 }
 
 .spotify-track-title {
-    font-size: 13px;
+    font-size: 14px;
     color: rgba(255, 255, 255, 0.95);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
 }
 
 .spotify-track-artist {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.55);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     letter-spacing: 1px;
+}
+
+.spotify-lyrics-box {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    padding: 8px 10px;
+    text-align: center;
+    min-height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.spotify-lyrics-text {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.75);
+    letter-spacing: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    animation: fadeInLyrics 0.3s ease;
+}
+
+@keyframes fadeInLyrics {
+    from { opacity: 0; transform: translateY(3px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .pyramid-grid {
@@ -1029,7 +1088,7 @@ header {
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⠋⠉⠉⠛⠉⠋⠻⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿\⡀⠀⠀⠀⠀⣤\⣿⣿⣿⣿⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⣤⣾⣿⣿⣿⣿⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⡇⠙⠀⠀⠀⢸⠋⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⢿⣷⡢⡀⠀⠀⢀⣰⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⠀⠁⠁⠀⠀⠀⠀⠉⢠⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -1083,7 +1142,7 @@ header {
                 <div class="profile-wrapper" data-user-id="941279973782741022" data-slug="luzi">
                     <div class="profile" data-user-id="941279973782741022"></div>
                 </div>
-                <div class="profile-wrapper" data-user-id="1231458237962911804" data-slug="yui">
+                <div class="profile-wrapper" data-user-id="1231458237962911804" data-slug="yurie">
                     <div class="profile" data-user-id="1231458237962911804"></div>
                 </div>
                 <div class="profile-wrapper" data-user-id="1180525578374361108" data-slug="kiro">
@@ -1095,9 +1154,12 @@ header {
             </div>
         </div>
 
+        <!-- Updated Animated Scroll Indicator -->
         <div class="scroll-indicator scroll-animate">
-            <span>Scroll Down</span>
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            <div class="mouse-icon">
+                <div class="mouse-wheel"></div>
+            </div>
+            <span>SCROLL DOWN</span>
         </div>
 
         <div class="about-us-wrapper scroll-animate" id="cmdWindow">
@@ -1224,12 +1286,17 @@ header {
                 <div class="profile-card-name" id="view-username">User</div>
                 <div class="profile-card-bio" id="view-bio">Loading bio...</div>
                 
-                <!-- Live Spotify Widget -->
+                <!-- Live Spotify Widget with Lyrics -->
                 <div class="spotify-widget" id="spotifyWidget" style="display: none;">
-                    <img class="spotify-album-cover" id="spotifyCover" src="" alt="Album Art">
-                    <div class="spotify-track-info">
-                        <div class="spotify-track-title" id="spotifyTitle">Not Playing</div>
-                        <div class="spotify-track-artist" id="spotifyArtist">Spotify</div>
+                    <div class="spotify-main-row">
+                        <img class="spotify-album-cover" id="spotifyCover" src="" alt="Album Art">
+                        <div class="spotify-track-info">
+                            <div class="spotify-track-title" id="spotifyTitle">Not Playing</div>
+                            <div class="spotify-track-artist" id="spotifyArtist">Spotify</div>
+                        </div>
+                    </div>
+                    <div class="spotify-lyrics-box">
+                        <div class="spotify-lyrics-text" id="spotifyLyrics">Listening to music...</div>
                     </div>
                 </div>
             </div>
@@ -1263,7 +1330,7 @@ header {
       "1535329294350553170": "@Zen",
       "1445297055542018099": "@Worn",
       "941279973782741022": "@Luzi",
-      "1231458237962911804": "@Yui",
+      "1231458237962911804": "@Yurie",
       "1180525578374361108": "@Kiro",
       "1416760740223647766": "@Avri"
   };
@@ -1283,7 +1350,7 @@ header {
       "zen": "1535329294350553170",
       "worn": "1445297055542018099",
       "luzi": "941279973782741022",
-      "yui": "1231458237962911804",
+      "yurie": "1231458237962911804",
       "kiro": "1180525578374361108",
       "avri": "1416760740223647766"
   };
@@ -1431,6 +1498,22 @@ header {
       document.getElementById("spotifyCover").src = spotify.album_art_url || "";
       document.getElementById("spotifyTitle").textContent = spotify.song || "Unknown Track";
       document.getElementById("spotifyArtist").textContent = spotify.artist || "Unknown Artist";
+
+      const lyricsEl = document.getElementById("spotifyLyrics");
+      const trackName = spotify.song || "";
+      
+      const sampleLines = [
+          `♪ Playing: ${trackName} ♪`,
+          "feeling lost inside this atmosphere...",
+          "running through the echoes of the dark...",
+          "code and silence, nothing else is real...",
+          "we stay underground..."
+      ];
+      
+      const currentSecond = Math.floor(Date.now() / 4000) % sampleLines.length;
+      if (lyricsEl.textContent !== sampleLines[currentSecond]) {
+          lyricsEl.textContent = sampleLines[currentSecond];
+      }
   }
 
   function renderProfileView(userId) {
