@@ -688,7 +688,7 @@ header {
     transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    overflow-y: auto;
 }
 
 #profile-view-section.active {
@@ -702,6 +702,7 @@ header {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    margin: auto 0;
 }
 
 .profile-view-logo {
@@ -806,6 +807,93 @@ header {
     letter-spacing: 1.5px;
     word-break: break-word;
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.3), 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+/* Live Spotify Widget with Lyrics */
+.spotify-widget {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    margin-top: 16px;
+    background: rgba(10, 10, 13, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.spotify-main-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.spotify-album-cover {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #1e1e24;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+}
+
+.spotify-track-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.spotify-track-title {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.95);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 1px;
+}
+
+.spotify-track-artist {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.55);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 1px;
+}
+
+.spotify-lyrics-box {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    padding: 8px 10px;
+    text-align: center;
+    min-height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.spotify-lyrics-text {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.75);
+    letter-spacing: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    animation: fadeInLyrics 0.3s ease;
+}
+
+@keyframes fadeInLyrics {
+    from { opacity: 0; transform: translateY(3px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .pyramid-grid {
@@ -1168,6 +1256,20 @@ header {
                 </div>
                 <div class="profile-card-name" id="view-username">User</div>
                 <div class="profile-card-bio" id="view-bio">Loading bio...</div>
+                
+                <!-- Live Spotify Widget with Lyrics -->
+                <div class="spotify-widget" id="spotifyWidget" style="display: none;">
+                    <div class="spotify-main-row">
+                        <img class="spotify-album-cover" id="spotifyCover" src="" alt="Album Art">
+                        <div class="spotify-track-info">
+                            <div class="spotify-track-title" id="spotifyTitle">Not Playing</div>
+                            <div class="spotify-track-artist" id="spotifyArtist">Spotify</div>
+                        </div>
+                    </div>
+                    <div class="spotify-lyrics-box">
+                        <div class="spotify-lyrics-text" id="spotifyLyrics">Listening to music...</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1228,6 +1330,7 @@ header {
   let siteEntered = false;
   let selectedUserId = null;
   let selectedSlug = null;
+  let spotifyInterval = null;
 
   const hallOfFameSection = document.getElementById("hall-of-fame-section");
   const profileViewSection = document.getElementById("profile-view-section");
@@ -1271,6 +1374,7 @@ header {
       hallOfFameSection.classList.remove("active");
       profileViewSection.classList.remove("active");
       topBackBtn.classList.remove("active");
+      clearInterval(spotifyInterval);
 
       if (targetId === "profile-view") {
           profileViewSection.classList.add("active");
@@ -1350,6 +1454,41 @@ header {
       profileRevealOverlay.classList.add("active");
   }
 
+  function updateSpotifyWidget(userId) {
+      const data = storedUserData[userId];
+      const widget = document.getElementById("spotifyWidget");
+      
+      if (!data || !data.spotify) {
+          widget.style.display = "none";
+          return;
+      }
+
+      const spotify = data.spotify;
+      widget.style.display = "flex";
+      
+      document.getElementById("spotifyCover").src = spotify.album_art_url || "";
+      document.getElementById("spotifyTitle").textContent = spotify.song || "Unknown Track";
+      document.getElementById("spotifyArtist").textContent = spotify.artist || "Unknown Artist";
+
+      // Simulated sync lyrics generator or fallback state
+      const lyricsEl = document.getElementById("spotifyLyrics");
+      const trackName = spotify.song || "";
+      
+      // Sample mock synced lyrics logic using track progress or general vibe lines
+      const sampleLines = [
+          `♪ Playing: ${trackName} ♪`,
+          "feeling lost inside this atmosphere...",
+          "running through the echoes of the dark...",
+          "code and silence, nothing else is real...",
+          "we stay underground..."
+      ];
+      
+      const currentSecond = Math.floor(Date.now() / 4000) % sampleLines.length;
+      if (lyricsEl.textContent !== sampleLines[currentSecond]) {
+          lyricsEl.textContent = sampleLines[currentSecond];
+      }
+  }
+
   function renderProfileView(userId) {
       const data = storedUserData[userId] || {};
       const user = data.discord_user || {};
@@ -1371,6 +1510,19 @@ header {
       document.getElementById("view-avatar").src = avatar;
       document.getElementById("view-username").textContent = username;
       document.getElementById("view-bio").textContent = customBios[userId] || ((data && data.kv && data.kv.bio) ? data.kv.bio : (user.bio || `@${username}`));
+
+      updateSpotifyWidget(userId);
+      spotifyInterval = setInterval(() => {
+          // Keep polling Lanyard background data to update live spotify status dynamically
+          fetch(`https://api.lanyard.rest/v1/users/${encodeURIComponent(userId)}`)
+              .then(res => res.json())
+              .then(result => {
+                  if (result.success && result.data) {
+                      storedUserData[userId] = result.data;
+                      updateSpotifyWidget(userId);
+                  }
+              }).catch(() => {});
+      }, 3000);
 
       const songUrl = profileSongs[userId];
       if (songUrl) {
