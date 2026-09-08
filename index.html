@@ -4,6 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- GitHub Pages SPA Redirect Fix -->
+<script>
+  (function() {
+    var redirect = sessionStorage.redirect;
+    delete sessionStorage.redirect;
+    if (redirect && redirect != location.href) {
+      history.replaceState(null, null, redirect);
+    } else {
+      var q = window.location.search;
+      if (q.indexOf('?p=') === 0) {
+        var path = q.slice(3).split('&')[0].replace(/~and~/g, '&');
+        window.history.replaceState(null, null, '/' + path + (window.location.hash || ''));
+      }
+    }
+  })();
+</script>
+
 <!-- Discord & Open Graph Meta Tags -->
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="esproc" />
@@ -900,6 +917,19 @@ header {
     .pyramid-row.row-2 { gap: 14px; }
     .pyramid-row.row-3 { gap: 14px; flex-wrap: wrap; justify-content: center; }
 }
+
+/* Scroll Animation Classes */
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.scroll-animate.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 </style>
 </head>
 
@@ -980,7 +1010,7 @@ header {
             <div class="logo-subtext">no snitch</div>
         </header>
 
-        <div class="pyramid-grid">
+        <div class="pyramid-grid scroll-animate">
             <div class="pyramid-row row-1">
                 <div class="profile-wrapper" data-user-id="1218899442074255524" data-slug="uzi">
                     <div class="profile" data-user-id="1218899442074255524"></div>
@@ -1010,12 +1040,12 @@ header {
             </div>
         </div>
 
-        <div class="scroll-indicator">
+        <div class="scroll-indicator scroll-animate">
             <span>Scroll Down</span>
             <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </div>
 
-        <div class="about-us-wrapper" id="cmdWindow">
+        <div class="about-us-wrapper scroll-animate" id="cmdWindow">
             <div class="cmd-titlebar">
                 <div class="cmd-title-left">
                     <div class="cmd-buttons">
@@ -1063,7 +1093,7 @@ header {
         </div>
 
         <!-- SEPARATED ARCHIVES CONTAINER -->
-        <div class="separated-archives-wrapper">
+        <div class="separated-archives-wrapper scroll-animate">
             <div class="archives-header-title">A R C H I V E S</div>
             <div class="archives-grid">
                 <!-- 1st Clip: Random clip -->
@@ -1260,8 +1290,7 @@ header {
       selectedSlug = null;
       profileRevealOverlay.classList.remove("active");
       
-      // Clear hash route cleanly
-      history.pushState("", document.title, window.location.pathname + window.location.search);
+      history.pushState({}, document.title, window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) || '/');
       switchTab("hall-of-fame-section");
   });
 
@@ -1356,10 +1385,11 @@ header {
   }
 
   function handleRouting() {
-      const hash = window.location.hash.replace("#", "").trim();
+      const pathSegments = window.location.pathname.split("/").filter(Boolean);
+      const currentSlug = pathSegments[pathSegments.length - 1];
 
-      if (hash && slugToId[hash]) {
-          const userId = slugToId[hash];
+      if (currentSlug && slugToId[currentSlug]) {
+          const userId = slugToId[currentSlug];
           switchTab("profile-view");
           renderProfileView(userId);
           return;
@@ -1369,7 +1399,7 @@ header {
       switchTab("hall-of-fame-section");
   }
 
-  window.addEventListener("hashchange", handleRouting);
+  window.addEventListener("popstate", handleRouting);
 
   const profileCard = document.getElementById("profileCard");
   
@@ -1437,13 +1467,31 @@ header {
   profileRevealOverlay.addEventListener("click", () => {
       if (selectedUserId && selectedSlug) {
           profileRevealOverlay.classList.remove("active");
-          window.location.hash = selectedSlug;
+          history.pushState({}, document.title, "/" + selectedSlug);
           switchTab("profile-view");
           renderProfileView(selectedUserId);
       }
   });
 
   loadLanyardProfiles();
+
+  const observerOptions = {
+      root: hallOfFameSection,
+      rootMargin: '0px',
+      threshold: 0.15
+  };
+
+  const scrollObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+          if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+          }
+      });
+  }, observerOptions);
+
+  document.querySelectorAll('.scroll-animate').forEach(el => {
+      scrollObserver.observe(el);
+  });
 
   window.addEventListener("DOMContentLoaded", () => {
       let currentProgress = 0;
