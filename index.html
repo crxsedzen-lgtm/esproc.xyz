@@ -713,115 +713,126 @@ header {
     filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.45));
 }
 
-/* Updated Profile Card Layout Matching Screenshot */
 .profile-card-container {
     position: relative;
-    width: min(440px, 90vw);
-    background: rgba(12, 12, 14, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 20px;
+    width: min(460px, 92vw);
+    background: rgba(13, 13, 15, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 24px;
     overflow: hidden;
     box-shadow: 
         0 25px 60px rgba(0, 0, 0, 0.85), 
-        0 0 30px rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+        0 0 35px rgba(255, 255, 255, 0.15),
+        inset 0 0 20px rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 30px 24px;
+    padding: 0 32px 34px 32px;
     transform-style: preserve-3d;
     will-change: transform, box-shadow;
     transition: border-color 0.3s ease;
 }
 
 .profile-card-container:hover {
-    border-color: rgba(255, 255, 255, 0.45);
+    border-color: rgba(255, 255, 255, 0.55);
 }
 
-.profile-card-title {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 18px;
-    letter-spacing: 4px;
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 24px;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+.profile-card-banner-wrap {
+    position: relative;
+    width: calc(100% + 64px);
+    height: 160px;
+    margin: 0 -32px 0 -32px;
+    background-color: #171719;
+    overflow: hidden;
 }
 
-.profile-card-inner-box {
+.profile-card-banner {
     width: 100%;
-    background: rgba(0, 0, 0, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 14px;
-    padding: 22px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.78);
 }
 
 .profile-card-avatar-wrap {
     position: relative;
-    width: 68px;
-    height: 68px;
+    z-index: 3;
+    width: 110px;
+    height: 110px;
+    margin-top: -55px;
+    margin-bottom: 15px;
 }
 
 .profile-card-avatar {
-    width: 68px;
-    height: 68px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 5px solid #0d0d0f;
     background: #171719;
-    box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.22), 0 12px 30px rgba(0,0,0,0.65);
 }
 
 .profile-card-name {
+    position: relative;
+    z-index: 2;
     font-family: 'Share Tech Mono', monospace;
-    font-size: 15px;
-    color: rgba(255, 255, 255, 0.95);
-    letter-spacing: 2px;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    font-size: 22px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 4px;
+    margin-bottom: 14px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    letter-spacing: 4px;
 }
 
 .profile-card-bio {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 14px 18px;
     font-family: 'Share Tech Mono', monospace;
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.6);
-    letter-spacing: 1.5px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
     text-align: center;
+    line-height: 1.5;
+    letter-spacing: 1.5px;
     word-break: break-word;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.3), 0 2px 6px rgba(0, 0, 0, 0.8);
+    margin-bottom: 14px;
 }
 
-/* Live Spotify Widget with Lyrics */
+/* Live Spotify Widget Box matching your clip */
 .spotify-widget {
     position: relative;
     z-index: 2;
     width: 100%;
-    margin-top: 14px;
-    background: rgba(10, 10, 13, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    backdrop-filter: blur(10px);
-}
-
-.spotify-main-row {
+    background: rgba(10, 10, 13, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 14px;
+    padding: 12px 16px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
 }
 
 .spotify-album-cover {
-    width: 44px;
-    height: 44px;
-    border-radius: 6px;
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
     object-fit: cover;
     background: #1e1e24;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     flex-shrink: 0;
 }
 
@@ -840,7 +851,7 @@ header {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
 }
 
 .spotify-track-artist {
@@ -850,34 +861,6 @@ header {
     overflow: hidden;
     text-overflow: ellipsis;
     letter-spacing: 1px;
-}
-
-.spotify-lyrics-box {
-    width: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 6px;
-    padding: 6px 8px;
-    text-align: center;
-    min-height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px dashed rgba(255, 255, 255, 0.08);
-}
-
-.spotify-lyrics-text {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.7);
-    letter-spacing: 1px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    animation: fadeInLyrics 0.3s ease;
-}
-
-@keyframes fadeInLyrics {
-    from { opacity: 0; transform: translateY(3px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 .pyramid-grid {
@@ -1040,13 +1023,13 @@ header {
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⡿⠀⠸⠋⣿⣿⣿⠛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠻⣿⣿⣿⠋⠛⠇⠀⠀⢹⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠃⠀⠀⢀⣿⣿⠁⠀⠈⢻⣿⣿⣿⣿⣿⡿⠋⠈⣿⣿⡏⠃⠀⠘⣿⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⡏⠀⠀⠀⠈⣿⣿⣿⣿⣿⠀⠀⠀⠸⣿⣇⠀⠀⠀⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⡇⠀⠀⠀⣿⣿⣿⣿⣿⡄⠀⠀⠀⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⡇⠀⠀⠀⣼⣿⣿⣿⣿⣿⡄⠀⠀⠀⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠁⠀⠀⣸⣿⣿⣿⣿⣿⣿⣿⠆⠀⠀⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣇⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⢠⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⠋⠉⠉⠛⠉⠋⠻⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⣤⣾⣿⣿⣿⣿⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿\⡀⠀⠀⠀⠀⣤\⣿⣿⣿⣿⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⡇⠙⠀⠀⠀⢸⠋⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⢿⣷⡢⡀⠀⠀⢀⣰⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⠀⠁⠁⠀⠀⠀⠀⠉⢠⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -1100,7 +1083,7 @@ header {
                 <div class="profile-wrapper" data-user-id="941279973782741022" data-slug="luzi">
                     <div class="profile" data-user-id="941279973782741022"></div>
                 </div>
-                <div class="profile-wrapper" data-user-id="1231458237962911804" data-slug="yui">
+                <div class="profile-wrapper" data-user-id="1231458237962911804" data-slug="yurie">
                     <div class="profile" data-user-id="1231458237962911804"></div>
                 </div>
                 <div class="profile-wrapper" data-user-id="1180525578374361108" data-slug="kiro">
@@ -1232,26 +1215,21 @@ header {
         <div class="profile-view-wrapper">
             <img src="https://file.garden/ap_lNYJ3ZXDJ4eKK/image.png" alt="Logo" class="profile-view-logo">
             <div class="profile-card-container" id="profileCard">
-                <div class="profile-card-title">About Me</div>
-                <div class="profile-card-inner-box">
-                    <div class="profile-card-avatar-wrap">
-                        <img class="profile-card-avatar" id="view-avatar" src="" alt="">
-                    </div>
-                    <div class="profile-card-name" id="view-username">User</div>
-                    <div class="profile-card-bio" id="view-bio">Loading bio...</div>
+                <div class="profile-card-banner-wrap">
+                    <img class="profile-card-banner" id="view-banner" src="" alt="">
                 </div>
+                <div class="profile-card-avatar-wrap">
+                    <img class="profile-card-avatar" id="view-avatar" src="" alt="">
+                </div>
+                <div class="profile-card-name" id="view-username">User</div>
+                <div class="profile-card-bio" id="view-bio">Loading bio...</div>
                 
-                <!-- Live Spotify Widget with Lyrics -->
+                <!-- Live Spotify Widget -->
                 <div class="spotify-widget" id="spotifyWidget" style="display: none;">
-                    <div class="spotify-main-row">
-                        <img class="spotify-album-cover" id="spotifyCover" src="" alt="Album Art">
-                        <div class="spotify-track-info">
-                            <div class="spotify-track-title" id="spotifyTitle">Not Playing</div>
-                            <div class="spotify-track-artist" id="spotifyArtist">Spotify</div>
-                        </div>
-                    </div>
-                    <div class="spotify-lyrics-box">
-                        <div class="spotify-lyrics-text" id="spotifyLyrics">Listening to music...</div>
+                    <img class="spotify-album-cover" id="spotifyCover" src="" alt="Album Art">
+                    <div class="spotify-track-info">
+                        <div class="spotify-track-title" id="spotifyTitle">Not Playing</div>
+                        <div class="spotify-track-artist" id="spotifyArtist">Spotify</div>
                     </div>
                 </div>
             </div>
@@ -1270,12 +1248,22 @@ header {
       "1416760740223647766": "https://file.garden/ap_lNYJ3ZXDJ4eKK/rb%20slatt%20-%204u.mp3"
   };
 
+  const customBanners = {
+    "1218899442074255524": "https://file.garden/aTO1E0deYkPxCYiy/esproc/uzi/IMG_1558.jpg",
+    "1535329294350553170": "https://file.garden/aTO1E0deYkPxCYiy/esproc/zen/a_5225d1ca8fff01a9d505c4a6e2d78265.gif",
+    "1445297055542018099": "https://file.garden/aTO1E0deYkPxCYiy/esproc/worn/sio.png",
+    "941279973782741022": "https://file.garden/aQ7GdamOYyV5C4ui/b32fbfbdcbd8d5dc06da4cdb7773367a.webp",
+    "1231458237962911804": "https://file.garden/aQ7GdamOYyV5C4ui/b32fbfbdcbd8d5dc06da4cdb7773367a.webp",
+    "1180525578374361108": "https://file.garden/aQ7GdamOYyV5C4ui/b32fbfbdcbd8d5dc06da4cdb7773367a.webp", 
+    "1416760740223647766": "https://file.garden/ap_lNYJ3ZXDJ4eKK/avri.png"
+  };
+
   const customNames = {
       "1218899442074255524": "@Uzi",
       "1535329294350553170": "@Zen",
       "1445297055542018099": "@Worn",
       "941279973782741022": "@Luzi",
-      "1231458237962911804": "@Yui",
+      "1231458237962911804": "@Yurie",
       "1180525578374361108": "@Kiro",
       "1416760740223647766": "@Avri"
   };
@@ -1295,7 +1283,7 @@ header {
       "zen": "1535329294350553170",
       "worn": "1445297055542018099",
       "luzi": "941279973782741022",
-      "yui": "1231458237962911804",
+      "yurie": "1231458237962911804",
       "kiro": "1180525578374361108",
       "avri": "1416760740223647766"
   };
@@ -1443,22 +1431,6 @@ header {
       document.getElementById("spotifyCover").src = spotify.album_art_url || "";
       document.getElementById("spotifyTitle").textContent = spotify.song || "Unknown Track";
       document.getElementById("spotifyArtist").textContent = spotify.artist || "Unknown Artist";
-
-      const lyricsEl = document.getElementById("spotifyLyrics");
-      const trackName = spotify.song || "";
-      
-      const sampleLines = [
-          `♪ Playing: ${trackName} ♪`,
-          "feeling lost inside this atmosphere...",
-          "running through the echoes of the dark...",
-          "code and silence, nothing else is real...",
-          "we stay underground..."
-      ];
-      
-      const currentSecond = Math.floor(Date.now() / 4000) % sampleLines.length;
-      if (lyricsEl.textContent !== sampleLines[currentSecond]) {
-          lyricsEl.textContent = sampleLines[currentSecond];
-      }
   }
 
   function renderProfileView(userId) {
@@ -1468,6 +1440,16 @@ header {
       const avatar = user.avatar
           ? `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.png?size=256`
           : `https://api.lanyard.rest/${userId}.png`;
+      const banner = customBanners[userId] || "";
+      
+      const bannerWrap = document.querySelector(".profile-card-banner-wrap");
+      const bannerImg = document.getElementById("view-banner");
+      if (banner) {
+          bannerImg.src = banner;
+          bannerWrap.style.display = "block";
+      } else {
+          bannerWrap.style.display = "none";
+      }
 
       document.getElementById("view-avatar").src = avatar;
       document.getElementById("view-username").textContent = username;
@@ -1544,7 +1526,8 @@ header {
           const glowY = (y / rect.height) * 20;
           profileCard.style.boxShadow = `
               0 25px 60px rgba(0, 0, 0, 0.85),
-              ${glowX}px ${glowY}px 35px rgba(255, 255, 255, 0.15)
+              ${glowX}px ${glowY}px 40px rgba(255, 255, 255, 0.25),
+              inset 0 0 20px rgba(255, 255, 255, 0.12)
           `;
 
           currentRotateX += (targetRotateX - currentRotateX) * 0.1;
