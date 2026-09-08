@@ -334,58 +334,43 @@ header {
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
 
-/* Animated Mouse Scroll Indicator Styles */
 .scroll-indicator {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
     margin-top: 20px;
     margin-bottom: 30px;
-    opacity: 0.85;
+    opacity: 0.8;
     animation: pulseScroll 2s ease-in-out infinite;
     flex-shrink: 0;
 }
 
 .scroll-indicator span {
     font-family: 'Share Tech Mono', monospace;
-    font-size: 14px;
-    letter-spacing: 4px;
+    font-size: 16px;
+    letter-spacing: 3px;
     color: rgba(255, 255, 255, 0.9);
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
-.mouse-icon {
-    width: 24px;
-    height: 38px;
-    border: 2px solid rgba(255, 255, 255, 0.75);
-    border-radius: 12px;
-    position: relative;
-    box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+.scroll-indicator svg {
+    width: 22px;
+    height: 28px;
+    stroke: #ffffff;
+    stroke-width: 2;
+    fill: none;
+    filter: drop-shadow(0 0 6px #ffffff);
 }
 
-.mouse-wheel {
-    width: 4px;
-    height: 8px;
-    background: #ffffff;
-    border-radius: 2px;
-    position: absolute;
-    top: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: scrollWheel 1.8s cubic-bezier(0.15, 0.41, 0.69, 0.94) infinite;
-    box-shadow: 0 0 6px #ffffff;
+.scroll-indicator .scroll-wheel {
+    animation: scrollWheelAnim 1.5s ease-in-out infinite;
 }
 
-@keyframes scrollWheel {
-    0% {
-        transform: translate(-50%, 0);
-        opacity: 1;
-    }
-    100% {
-        transform: translate(-50%, 14px);
-        opacity: 0;
-    }
+@keyframes scrollWheelAnim {
+    0% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(4px); opacity: 0.3; }
+    100% { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes pulseScroll {
@@ -1147,12 +1132,12 @@ header {
             </div>
         </div>
 
-        <!-- Updated Animated Scroll Indicator -->
         <div class="scroll-indicator scroll-animate">
-            <div class="mouse-icon">
-                <div class="mouse-wheel"></div>
-            </div>
-            <span>SCROLL DOWN</span>
+            <span>Scroll Down</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="7" y="4" width="10" height="16" rx="5"></rect>
+                <line x1="12" y1="8" x2="12" y2="12" class="scroll-wheel"></line>
+            </svg>
         </div>
 
         <div class="about-us-wrapper scroll-animate" id="cmdWindow">
@@ -1492,9 +1477,11 @@ header {
       document.getElementById("spotifyTitle").textContent = spotify.song || "Unknown Track";
       document.getElementById("spotifyArtist").textContent = spotify.artist || "Unknown Artist";
 
+      // Simulated sync lyrics generator or fallback state
       const lyricsEl = document.getElementById("spotifyLyrics");
       const trackName = spotify.song || "";
       
+      // Sample mock synced lyrics logic using track progress or general vibe lines
       const sampleLines = [
           `♪ Playing: ${trackName} ♪`,
           "feeling lost inside this atmosphere...",
@@ -1533,6 +1520,7 @@ header {
 
       updateSpotifyWidget(userId);
       spotifyInterval = setInterval(() => {
+          // Keep polling Lanyard background data to update live spotify status dynamically
           fetch(`https://api.lanyard.rest/v1/users/${encodeURIComponent(userId)}`)
               .then(res => res.json())
               .then(result => {
