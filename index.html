@@ -11,20 +11,13 @@
     delete sessionStorage.redirect;
     if (redirect && redirect != location.href) {
       history.replaceState(null, null, redirect);
-} else {
-    var q = window.location.search;
-    if (q.indexOf('?p=') === 0) {
+    } else {
+      var q = window.location.search;
+      if (q.indexOf('?p=') === 0) {
         var path = q.slice(3).split('&')[0].replace(/~and~/g, '&');
         window.history.replaceState(null, null, '/' + path + (window.location.hash || ''));
-        
-        // --- ADD YOUR LOGIC HERE ---
-        // For example, if path is "uzi", load the uzi profile:
-        if (path === 'uzi' || path === '/uzi') {
-            // Call your function that renders the uzi profile
-            loadUziProfile(); 
-        }
+      }
     }
-}
   })();
 </script>
 
